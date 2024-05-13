@@ -1,21 +1,41 @@
 {
   "compilerOptions": {
-    "module": "commonjs",
+    "module": "CommonJS",
     "declaration": true,
     "removeComments": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "allowSyntheticDefaultImports": true,
-    "target": "ES2021",
+    "target": "ES2015",
     "sourceMap": true,
     "outDir": "./dist",
-    "baseUrl": "./",
+    "baseUrl": "./src",
     "incremental": true,
     "skipLibCheck": true,
     "strictNullChecks": false,
     "noImplicitAny": false,
     "strictBindCallApply": false,
     "forceConsistentCasingInFileNames": false,
-    "noFallthroughCasesInSwitch": false
+    "noFallthroughCasesInSwitch": false,
+    "typeRoots": [
+      "../node_modules/@types",
+      "../node_modules/@types/node",
+      "./src/types"
+    ],
+    "paths": {
+      "utils": ["./utils/"],
+      "exception": ["./exception/"],
+      "modules": ["./modules/"],
+      "config": ["./config/"],
+      "base": ["./base/"]
+      // "locales": ["./locales/"],
+      // "interceptor": ["./interceptor/"],
+      // "base": ["./base/"],
+      // "types": ["./types/"],
+      // "constants": ["./src/constants/"],
+      // "validation": ["./validation/"],
+      // "datasources": ["./datasources/"],
+    },
+    "resolveJsonModule": true
   }
 }
