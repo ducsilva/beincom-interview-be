@@ -10,7 +10,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { getMongoUrl } from './config/environment';
 import { PostsModule } from './modules/posts/posts.module';
 import { MulterModule } from '@nestjs/platform-express';
-import { CloudinaryMulterConfigService } from 'middleware';
+import { CloudinaryMulterConfigService } from './middleware';
 import { APP_GUARD } from '@nestjs/core';
 import { RoleGuard } from './modules/auth/auth.guard';
 
