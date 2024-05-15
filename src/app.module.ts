@@ -7,7 +7,7 @@ import { AuthModule } from './modules/auth/auth.module';
 import { PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
 import { MongooseModule } from '@nestjs/mongoose';
-import { getMongoUrl } from 'config/environment';
+import { getMongoUrl } from './config/environment';
 import { PostsModule } from './modules/posts/posts.module';
 import { MulterModule } from '@nestjs/platform-express';
 import { CloudinaryMulterConfigService } from 'middleware';
