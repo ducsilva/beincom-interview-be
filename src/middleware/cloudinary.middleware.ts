@@ -24,7 +24,7 @@ export class CloudinaryMulterConfigService implements MulterOptionsFactory {
   createMulterOptions(): MulterModuleOptions {
     return {
       storage: diskStorage({
-        destination: './uploads',
+        // destination: './uploads',
         filename: (req, file, cb) => {
           const randomName = Array(32)
             .fill(null)
