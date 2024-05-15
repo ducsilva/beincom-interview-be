@@ -5,7 +5,7 @@ import { Post, PostDocument } from './entities/post.schema';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { PostQueryDto } from 'base/query';
-import { getPropertiesIfExists, paginate } from 'utils';
+import { getPropertiesIfExists, paginate } from '../../utils';
 
 @Injectable()
 export class PostsService {

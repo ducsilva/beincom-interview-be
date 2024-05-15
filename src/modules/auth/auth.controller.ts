@@ -1,9 +1,9 @@
 import { Body, Controller, Post, UnauthorizedException } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
-import { LoginUserDto } from 'modules/users/dto/login.dto';
-import { UsersService } from 'modules/users/users.service';
-import { CreateUserDto } from 'modules/users/dto/create-user.dto';
+import { CreateUserDto } from '../users/dto/create-user.dto';
+import { UsersService } from '../users/users.service';
+import { LoginUserDto } from '../users/dto/login.dto';
 
 @ApiBearerAuth()
 @ApiTags('Authentication')

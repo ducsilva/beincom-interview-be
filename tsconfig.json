@@ -23,11 +23,11 @@
       "./src/types"
     ],
     "paths": {
-      "utils": ["./utils/"],
-      "exception": ["./exception/"],
-      "modules": ["./modules/"],
-      "config": ["./config/"],
-      "base": ["./base/"]
+      // "utils": ["./utils/"],
+      // "exception": ["./exception/"],
+      // "modules": ["./modules/"],
+      // "config": ["./config/"],
+      // "base": ["./base/"]
       // "locales": ["./locales/"],
       // "interceptor": ["./interceptor/"],
       // "base": ["./base/"],

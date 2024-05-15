@@ -9,7 +9,7 @@ import * as bodyParser from 'body-parser';
 
 import { AppModule } from './app.module';
 import { ConfigService } from '@nestjs/config';
-import { AllExceptionsFilter } from 'exception';
+import { AllExceptionsFilter } from './exception';
 
 dotenv.config({
   path: `${process.cwd()}/.env`,

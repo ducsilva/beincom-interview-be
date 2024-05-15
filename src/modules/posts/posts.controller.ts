@@ -13,7 +13,7 @@ import { CreatePostDto } from './dto/create-post.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { v2 as cloudinary } from 'cloudinary';
 import { File } from 'multer';
-import { Role, Roles } from 'config/role';
+import { Role, Roles } from '../../config/role';
 import {
   ApiBearerAuth,
   ApiConsumes,
@@ -21,7 +21,7 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import { JwtService } from '@nestjs/jwt';
-import { PostQueryDto } from 'base';
+import { PostQueryDto } from '../../base';
 
 @ApiBearerAuth()
 @ApiTags('Posts')

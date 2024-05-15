@@ -1,5 +1,5 @@
 import { Prop, SchemaFactory } from '@nestjs/mongoose';
-import { BaseSchema, DefaultSchema } from 'base/entities/base.schema';
+import { BaseSchema, DefaultSchema } from '../../../base/entities/base.schema';
 import { Document, Types } from 'mongoose';
 
 export type PostDocument = Post & Document;
