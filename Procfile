@@ -1,1 +1,1 @@
-web: yarn start:prod -p $PORT
+worker: yarn start:prod
