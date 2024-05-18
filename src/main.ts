@@ -8,7 +8,6 @@ import * as dotenv from 'dotenv';
 import * as bodyParser from 'body-parser';
 
 import { AppModule } from './app.module';
-import { ConfigService } from '@nestjs/config';
 import { AllExceptionsFilter } from './exception';
 
 dotenv.config({
@@ -20,7 +19,6 @@ async function bootstrap() {
     const app = await NestFactory.create<NestExpressApplication>(AppModule, {
       bufferLogs: true,
     });
-    const configService: ConfigService = app.get(ConfigService);
 
     // API prefix version
     app.setGlobalPrefix('api/v1');
@@ -95,8 +93,10 @@ async function bootstrap() {
     // });
 
     // await app.startAllMicroservices();
+    console.log("🚀 ~ bootstrap ~ process.env.PORT:", process.env.PORT)
 
-    await app.listen(process.env.PORT || 3032);
+
+    await app.listen(process.env.PORT);
 
     // console.table([
     //   {
