@@ -22,6 +22,7 @@
       "../node_modules/@types/node",
       "./src/types"
     ],
+    "types": ["node"],
     "paths": {
       // "utils": ["./utils/"],
       // "exception": ["./exception/"],
