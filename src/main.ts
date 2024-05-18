@@ -98,16 +98,16 @@ async function bootstrap() {
 
     await app.listen(configService.get('PORT') || 3032);
 
-    console.table([
-      {
-        title: 'App Start'.toUpperCase(),
-        body: `${`http://localhost:${process.env.PORT}/`}`,
-      },
-      {
-        title: 'Swagger Documentation'.toUpperCase(),
-        body: `${`http://localhost:${process.env.PORT}/docs`}`,
-      },
-    ]);
+    // console.table([
+    //   {
+    //     title: 'App Start'.toUpperCase(),
+    //     body: `${`http://localhost:${process.env.PORT}/`}`,
+    //   },
+    //   {
+    //     title: 'Swagger Documentation'.toUpperCase(),
+    //     body: `${`http://localhost:${process.env.PORT}/docs`}`,
+    //   },
+    // ]);
   } catch (error) {
     console.log('error:', error);
   }
