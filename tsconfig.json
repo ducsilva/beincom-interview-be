@@ -1,12 +1,10 @@
 {
   "compilerOptions": {
-    "module": "CommonJS",
     "declaration": true,
     "removeComments": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "allowSyntheticDefaultImports": true,
-    "target": "ES2015",
     "sourceMap": true,
     "outDir": "./dist",
     "baseUrl": "./src",
@@ -23,6 +21,10 @@
       "./src/types"
     ],
     "types": ["node"],
+    "lib": ["esnext"],
+    "module": "CommonJS",
+    "target": "esnext",
+    "moduleResolution": "node",
     "paths": {
       // "utils": ["./utils/"],
       // "exception": ["./exception/"],
