@@ -14,9 +14,11 @@ dotenv.config({
   path: `${process.cwd()}/.env`,
 });
 
+let app;
+
 async function bootstrap() {
   try {
-    const app = await NestFactory.create<NestExpressApplication>(AppModule, {
+    app = await NestFactory.create<NestExpressApplication>(AppModule, {
       bufferLogs: true,
     });
 
@@ -93,8 +95,7 @@ async function bootstrap() {
     // });
 
     // await app.startAllMicroservices();
-    console.log("🚀 ~ bootstrap ~ process.env.PORT:", process.env.PORT)
-
+    console.log('🚀 ~ bootstrap ~ process.env.PORT:', process.env.PORT);
 
     await app.listen(process.env.PORT);
 
@@ -114,3 +115,5 @@ async function bootstrap() {
 }
 
 bootstrap();
+
+export default app;
