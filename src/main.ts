@@ -14,11 +14,9 @@ dotenv.config({
   path: `${process.cwd()}/.env`,
 });
 
-let app;
-
-async function bootstrap() {
+export async function bootstrap() {
   try {
-    app = await NestFactory.create<NestExpressApplication>(AppModule, {
+    const app = await NestFactory.create<NestExpressApplication>(AppModule, {
       bufferLogs: true,
     });
 
@@ -115,5 +113,3 @@ async function bootstrap() {
 }
 
 bootstrap();
-
-export default app;
