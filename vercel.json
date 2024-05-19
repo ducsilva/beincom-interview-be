@@ -14,9 +14,12 @@
         "GET",
         "POST",
         "PUT",
-        "DELETE",
         "PATCH",
-        "OPTIONS"
+        "OPTIONS",
+        "DELETE",
+        "HEAD",
+        "CONNECT",
+        "TRACE"
       ]
     }
   ]
