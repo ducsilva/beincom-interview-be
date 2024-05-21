@@ -1,15 +1,13 @@
 import { Prop, SchemaFactory } from '@nestjs/mongoose';
 import { BaseSchema, DefaultSchema } from '../../../base';
 import { Role } from '../../../config/role';
-import { Document, Types } from 'mongoose';
+import { Document } from 'mongoose';
 
 export type UserDocument = User & Document;
 
 @DefaultSchema()
 export class User extends BaseSchema {
-  @Prop({ type: Types.ObjectId, default: new Types.ObjectId(), required: true })
-  _id: Types.ObjectId;
-
+  [x: string]: any;
   @Prop({
     type: String,
     required: true,

@@ -6,9 +6,6 @@ export type PostDocument = Post & Document;
 
 @DefaultSchema()
 export class Post extends BaseSchema {
-  @Prop({ type: Types.ObjectId, default: new Types.ObjectId(), required: true })
-  _id: Types.ObjectId;
-
   @Prop({
     type: String,
     required: true,
@@ -28,10 +25,11 @@ export class Post extends BaseSchema {
   banner: string;
 
   @Prop({
-    type: String,
-    required: true,
+    ref: 'Category',
+    type: Types.ObjectId,
+    nullable: true,
   })
-  category: string;
+  categoryId: Types.ObjectId;
 
   @Prop({
     ref: 'User',
