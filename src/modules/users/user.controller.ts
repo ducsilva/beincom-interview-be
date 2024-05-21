@@ -24,7 +24,9 @@ export class UserController {
         secret: process.env.JWT_SECRET,
       });
 
-      const user = await this.userService.findByEmail(decodedToken.email);
+      const user = await this.userService.findByEmailExceptPass(
+        decodedToken.email,
+      );
       if (!user) {
         throw new UnauthorizedException('Invalid email');
       }
