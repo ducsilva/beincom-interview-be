@@ -49,7 +49,7 @@ export class PostsController {
       secret: process.env.JWT_SECRET,
     });
     const userId = decodedToken.userId;
-    const { title, content, category } = createPostDto;
+    const { title, content, categoryId } = createPostDto;
     const fileData = banner?.buffer?.toString('base64');
 
     const bannerUrl = await this.uploadToCloudinary(
@@ -60,7 +60,7 @@ export class PostsController {
         title,
         content,
         banner: bannerUrl,
-        category,
+        categoryId,
       },
       userId,
     );
@@ -80,7 +80,6 @@ export class PostsController {
     summary: 'Get all post',
   })
   async getAllPost(@Query() query: PostQueryDto) {
-    console.log('🚀 ~ PostsController ~ getAllPost ~ query:', query);
     return await this.postsService.findAll(query);
   }
 }

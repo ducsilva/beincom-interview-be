@@ -28,7 +28,7 @@ export class UserController {
       if (!user) {
         throw new UnauthorizedException('Invalid email');
       }
-      delete user.password;
+
       return user;
     } catch (error) {
       throw new AllExceptionsFilter();

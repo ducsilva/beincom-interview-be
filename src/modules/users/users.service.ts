@@ -28,7 +28,7 @@ export class UsersService {
   }
 
   async findByEmail(email: string): Promise<User | null> {
-    return this.userModel.findOne({ email }).exec();
+    return this.userModel.findOne({ email }, '-password').exec();
   }
 
   async validateUser(email: string, password: string): Promise<any> {
@@ -37,7 +37,7 @@ export class UsersService {
       if (!user) {
         throw new UnauthorizedException('Invalid email or password');
       }
-      const payload = { email: user.email, userId: user._id };
+      const payload = { email: user.email, userId: user?._id };
       return {
         access_token: await this.jwtService.signAsync(payload),
       };

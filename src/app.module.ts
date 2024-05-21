@@ -13,6 +13,7 @@ import { MulterModule } from '@nestjs/platform-express';
 import { CloudinaryMulterConfigService } from './middleware';
 import { APP_GUARD } from '@nestjs/core';
 import { RoleGuard } from './modules/auth/auth.guard';
+import { CategoryModule } from './modules/category/category.module';
 
 @Module({
   imports: [
@@ -32,6 +33,7 @@ import { RoleGuard } from './modules/auth/auth.guard';
     AuthModule,
     UsersModule,
     PostsModule,
+    CategoryModule,
   ],
   controllers: [AppController],
   providers: [
