@@ -33,6 +33,7 @@ export class PostsService {
       .limit(limit)
       .populate({ path: 'user', select: '-password' })
       .populate('category')
+      .sort({ createdAt: -1 })
       .exec();
 
     const totalItems = await this.postModel.countDocuments(condition);
