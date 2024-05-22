@@ -29,14 +29,14 @@ export class Post extends BaseSchema {
     type: Types.ObjectId,
     nullable: true,
   })
-  categoryId: Types.ObjectId;
+  category: Types.ObjectId;
 
   @Prop({
     ref: 'User',
     type: Types.ObjectId,
     nullable: false,
   })
-  userId: Types.ObjectId;
+  user: Types.ObjectId;
 }
 
 export const PostSchema = SchemaFactory.createForClass(Post);

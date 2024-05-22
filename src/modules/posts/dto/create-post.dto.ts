@@ -25,7 +25,7 @@ export class CreatePostDto {
     type: String,
     default: '',
   })
-  categoryId: string;
+  category: string;
 
   @ApiProperty({
     name: 'banner',

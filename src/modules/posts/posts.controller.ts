@@ -7,6 +7,8 @@ import {
   Req,
   Get,
   Query,
+  HttpException,
+  HttpStatus,
 } from '@nestjs/common';
 import { PostsService } from './posts.service';
 import { CreatePostDto } from './dto/create-post.dto';
@@ -44,26 +46,30 @@ export class PostsController {
     @UploadedFile() banner: File,
     @Req() req: any,
   ) {
-    const token = req.headers['authorization'].split(' ')[1];
-    const decodedToken = this.jwtService.verify(token, {
-      secret: process.env.JWT_SECRET,
-    });
-    const userId = decodedToken.userId;
-    const { title, content, categoryId } = createPostDto;
-    const fileData = banner?.buffer?.toString('base64');
+    try {
+      const token = req.headers['authorization']?.split(' ')?.[1];
+      const decodedToken = this.jwtService.verify(token, {
+        secret: process.env.JWT_SECRET,
+      });
+      const user = decodedToken.userId;
+      const { title, content, category } = createPostDto;
+      const fileData = banner?.buffer?.toString('base64');
 
-    const bannerUrl = await this.uploadToCloudinary(
-      `data:${banner.mimetype};base64,${fileData}`,
-    );
-    return this.postsService.create(
-      {
-        title,
-        content,
-        banner: bannerUrl,
-        categoryId,
-      },
-      userId,
-    );
+      const bannerUrl = await this.uploadToCloudinary(
+        `data:${banner.mimetype};base64,${fileData}`,
+      );
+      return this.postsService.create(
+        {
+          title,
+          content,
+          banner: bannerUrl,
+          category,
+        },
+        user,
+      );
+    } catch (error) {
+      return new HttpException(error?.message, HttpStatus.BAD_REQUEST);
+    }
   }
 
   async uploadToCloudinary(filePath: string): Promise<string> {

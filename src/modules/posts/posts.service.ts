@@ -13,8 +13,8 @@ export class PostsService {
     @InjectModel(Post.name)
     private readonly postModel: Model<PostDocument>,
   ) {}
-  create(input: CreatePostDto, userId: string) {
-    const newPost = new this.postModel({ ...input, userId });
+  create(input: CreatePostDto, user: string) {
+    const newPost = new this.postModel({ ...input, user });
     return newPost.save();
   }
 
@@ -30,7 +30,10 @@ export class PostsService {
     const appService = await this.postModel
       .find(condition)
       .skip(skip)
-      .limit(limit);
+      .limit(limit)
+      .populate({ path: 'user', select: '-password' })
+      .populate('category')
+      .exec();
 
     const totalItems = await this.postModel.countDocuments(condition);
 
