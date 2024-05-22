@@ -74,7 +74,6 @@ export class PostsController {
       return '';
     }
   }
-  @Roles(Role.USER)
   @Get()
   @ApiOperation({
     summary: 'Get all post',
