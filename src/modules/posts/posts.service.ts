@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { CreatePostDto } from './dto/create-post.dto';
 import { UpdatePostDto } from './dto/update-post.dto';
 import { Post, PostDocument } from './entities/post.schema';
@@ -46,8 +46,16 @@ export class PostsService {
     });
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} post`;
+  async findOne(id: string) {
+    const postDetail = await this.postModel.findById(id).exec();
+    if (!postDetail) {
+      throw new HttpException(
+        `Cannot find post with ${id}`,
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+
+    return postDetail;
   }
 
   update(id: number, updatePostDto: UpdatePostDto) {

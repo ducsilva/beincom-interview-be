@@ -17,12 +17,14 @@ export class UsersService {
     username: string,
     email: string,
     password: string,
+    avatar: string,
   ): Promise<User> {
     const hashedPassword = await bcrypt.hash(password, 10);
     const newUser = new this.userModel({
       username,
       email,
       password: hashedPassword,
+      avatar,
     });
     return newUser.save();
   }

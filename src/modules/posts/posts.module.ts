@@ -5,6 +5,7 @@ import { Post, PostSchema } from './entities/post.schema';
 import { MongooseModule } from '@nestjs/mongoose';
 import { CategoryModule } from 'modules/category/category.module';
 import { UsersModule } from 'modules/users/users.module';
+import { CloudinaryMulterConfigModule } from 'middleware/CloudinaryMulterConfigModule.module';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { UsersModule } from 'modules/users/users.module';
     ]),
     CategoryModule,
     UsersModule,
+    CloudinaryMulterConfigModule,
   ],
   controllers: [PostsController],
   providers: [PostsService],

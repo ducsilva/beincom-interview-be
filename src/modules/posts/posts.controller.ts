@@ -9,11 +9,11 @@ import {
   Query,
   HttpException,
   HttpStatus,
+  Param,
 } from '@nestjs/common';
 import { PostsService } from './posts.service';
 import { CreatePostDto } from './dto/create-post.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { v2 as cloudinary } from 'cloudinary';
 import { File } from 'multer';
 import { Role, Roles } from '../../config/role';
 import {
@@ -24,6 +24,7 @@ import {
 } from '@nestjs/swagger';
 import { JwtService } from '@nestjs/jwt';
 import { PostQueryDto } from '../../base';
+import { CloudinaryMulterConfigService } from 'middleware/cloudinary.middleware.service';
 
 @ApiBearerAuth()
 @ApiTags('Posts')
@@ -32,6 +33,7 @@ export class PostsController {
   constructor(
     private readonly postsService: PostsService,
     private readonly jwtService: JwtService,
+    private readonly cloudaryService: CloudinaryMulterConfigService,
   ) {}
 
   @Roles(Role.USER)
@@ -55,7 +57,7 @@ export class PostsController {
       const { title, content, category } = createPostDto;
       const fileData = banner?.buffer?.toString('base64');
 
-      const bannerUrl = await this.uploadToCloudinary(
+      const bannerUrl = await this.cloudaryService.uploadToCloudinary(
         `data:${banner.mimetype};base64,${fileData}`,
       );
       return this.postsService.create(
@@ -72,19 +74,20 @@ export class PostsController {
     }
   }
 
-  async uploadToCloudinary(filePath: string): Promise<string> {
-    try {
-      const result = await cloudinary.uploader.upload(filePath);
-      return result.secure_url;
-    } catch (error) {
-      return '';
-    }
-  }
   @Get()
   @ApiOperation({
     summary: 'Get all post',
   })
   async getAllPost(@Query() query: PostQueryDto) {
     return await this.postsService.findAll(query);
+  }
+
+  @Roles(Role.USER)
+  @Get(':id')
+  @ApiOperation({
+    summary: 'Get detail post',
+  })
+  async getPostDetail(@Param('id') id: string) {
+    return await this.postsService.findOne(id);
   }
 }

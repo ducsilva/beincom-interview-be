@@ -4,6 +4,7 @@ import { UsersModule } from '../users/users.module';
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
 import * as dotenv from 'dotenv';
+import { CloudinaryMulterConfigModule } from 'middleware/CloudinaryMulterConfigModule.module';
 
 dotenv.config({
   path: `${process.cwd()}/.env`,
@@ -15,8 +16,9 @@ dotenv.config({
     JwtModule.register({
       global: true,
       secret: process.env.JWT_SECRET,
-      signOptions: { expiresIn: '1d' },
+      signOptions: { expiresIn: '30d' },
     }),
+    CloudinaryMulterConfigModule,
   ],
   providers: [AuthService],
   controllers: [AuthController],

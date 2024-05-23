@@ -25,4 +25,13 @@ export class CreateUserDto {
     default: 'darkness',
   })
   username: string;
+
+  @ApiProperty({
+    name: 'avatar',
+    description: 'Select an avatar',
+    required: true,
+    type: String,
+    format: 'binary',
+  })
+  avatar: File;
 }

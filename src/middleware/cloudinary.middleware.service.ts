@@ -35,4 +35,13 @@ export class CloudinaryMulterConfigService implements MulterOptionsFactory {
       }),
     };
   }
+
+  async uploadToCloudinary(filePath: string): Promise<string> {
+    try {
+      const result = await cloudinary.uploader.upload(filePath);
+      return result.secure_url;
+    } catch (error) {
+      return '';
+    }
+  }
 }
