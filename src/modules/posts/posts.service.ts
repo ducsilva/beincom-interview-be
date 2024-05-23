@@ -47,7 +47,11 @@ export class PostsService {
   }
 
   async findOne(id: string) {
-    const postDetail = await this.postModel.findById(id).exec();
+    const postDetail = await this.postModel
+      .findById(id)
+      .populate({ path: 'user', select: '-password' })
+      .populate('category')
+      .exec();
     if (!postDetail) {
       throw new HttpException(
         `Cannot find post with ${id}`,
