@@ -1,57 +1,36 @@
-import {
-  Body,
-  Controller,
-  Post,
-  UnauthorizedException,
-  UploadedFile,
-  UseInterceptors,
-} from '@nestjs/common';
-import {
-  ApiBearerAuth,
-  ApiConsumes,
-  ApiOperation,
-  ApiTags,
-} from '@nestjs/swagger';
+import { Body, Controller, Post, UnauthorizedException } from '@nestjs/common';
+import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { CreateUserDto } from '../users/dto/create-user.dto';
 import { UsersService } from '../users/users.service';
 import { LoginUserDto } from '../users/dto/login.dto';
-import { FileInterceptor } from '@nestjs/platform-express';
-import { File } from 'multer';
-import { CloudinaryMulterConfigService } from 'middleware/cloudinary.middleware.service';
 
 @ApiBearerAuth()
 @ApiTags('Authentication')
 @Controller('auth')
 export class AuthController {
-  constructor(
-    private userService: UsersService,
-    private readonly cloudaryService: CloudinaryMulterConfigService,
-  ) {}
+  constructor(private userService: UsersService) {}
 
-  @ApiConsumes('multipart/form-data')
   @ApiOperation({
     summary: 'Register new user',
   })
-  @UseInterceptors(FileInterceptor('avatar'))
   @Post('register')
-  async register(
-    @Body() createUserDto: CreateUserDto,
-    @UploadedFile() avatar: File,
-  ) {
-    const { username, email, password } = createUserDto;
-    const existingUser = await this.userService.findByEmail(email);
+  async register(@Body() createUserDto: CreateUserDto) {
+    const { username, email, password, fullname } = createUserDto;
+    const existingUserEmail = await this.userService.findByEmail(email);
+    const existingUserUsername = await this.userService.findByUsername(
+      username,
+    );
 
-    let avatarUrl = '';
-    if (avatar) {
-      const fileData = avatar?.buffer?.toString('base64');
-      avatarUrl = await this.cloudaryService.uploadToCloudinary(
-        `data:${avatar.mimetype};base64,${fileData}`,
+    if (existingUserEmail) {
+      throw new UnauthorizedException(`Email: ${email} already exists`);
+    }
+
+    if (existingUserUsername) {
+      throw new UnauthorizedException(
+        `Username: ${username} already exists! Please use another username`,
       );
     }
-    if (existingUser) {
-      throw new UnauthorizedException('Email already exists');
-    }
-    return this.userService.register(username, email, password, avatarUrl);
+    return this.userService.register(username, email, password, fullname);
   }
 
   @Post('login')

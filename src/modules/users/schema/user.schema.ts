@@ -28,6 +28,12 @@ export class User extends BaseSchema {
 
   @Prop({
     type: String,
+    required: true,
+  })
+  fullname: string;
+
+  @Prop({
+    type: String,
     required: false,
     default: Role.USER,
   })

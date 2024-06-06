@@ -26,12 +26,11 @@ export class CreateUserDto {
   })
   username: string;
 
+  @IsNotEmpty()
+  @IsString()
   @ApiProperty({
-    name: 'avatar',
-    description: 'Select an avatar',
-    required: true,
     type: String,
-    format: 'binary',
+    default: 'darkness',
   })
-  avatar: File;
+  fullname: string;
 }
