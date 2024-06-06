@@ -25,4 +25,12 @@ export class CreateUserDto {
     default: 'darkness',
   })
   username: string;
+
+  @IsNotEmpty()
+  @IsString()
+  @ApiProperty({
+    type: String,
+    default: 'darkness',
+  })
+  fullname: string;
 }

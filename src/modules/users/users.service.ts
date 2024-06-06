@@ -17,14 +17,20 @@ export class UsersService {
     username: string,
     email: string,
     password: string,
+    fullname: string,
   ): Promise<User> {
     const hashedPassword = await bcrypt.hash(password, 10);
     const newUser = new this.userModel({
       username,
       email,
+      fullname,
       password: hashedPassword,
     });
     return newUser.save();
+  }
+
+  async findByUsername(username: string): Promise<User | null> {
+    return this.userModel.findOne({ username }).exec();
   }
 
   async findByEmail(email: string): Promise<User | null> {
