@@ -35,8 +35,12 @@ export class Post extends BaseSchema {
     ref: 'User',
     type: Types.ObjectId,
     nullable: false,
+    autopopulate: true,
   })
   user: Types.ObjectId;
+
+  @Prop([{ type: Types.ObjectId, ref: 'Comment', autopopulate: true }])
+  comments: Types.ObjectId[];
 }
 
 export const PostSchema = SchemaFactory.createForClass(Post);

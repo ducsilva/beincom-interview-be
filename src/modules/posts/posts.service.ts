@@ -6,12 +6,14 @@ import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { PostQueryDto } from 'base/query';
 import { getPropertiesIfExists, paginate } from '../../utils';
+import { CommentsService } from 'modules/comments/comments.service';
 
 @Injectable()
 export class PostsService {
   constructor(
     @InjectModel(Post.name)
     private readonly postModel: Model<PostDocument>,
+    private readonly commentsService: CommentsService,
   ) {}
   create(input: CreatePostDto, user: string) {
     const newPost = new this.postModel({ ...input, user });
@@ -32,14 +34,23 @@ export class PostsService {
       .skip(skip)
       .limit(limit)
       .populate({ path: 'user', select: '-password' })
-      .populate('category')
       .sort({ createdAt: -1 })
       .exec();
 
     const totalItems = await this.postModel.countDocuments(condition);
 
+    const postsWithComments = await Promise.all(
+      appService.map(async (post) => {
+        const comments = await this.commentsService.findAllByPostId(post.id);
+        return {
+          ...post.toJSON(),
+          comments,
+        };
+      }),
+    );
+
     return paginate({
-      data: appService,
+      data: postsWithComments,
       totalItems,
       page: page,
       limit: limit,

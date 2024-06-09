@@ -4,7 +4,6 @@ import {
   Body,
   UseInterceptors,
   UploadedFile,
-  Req,
   Get,
   Query,
   HttpException,
@@ -25,6 +24,7 @@ import {
 import { JwtService } from '@nestjs/jwt';
 import { PostQueryDto } from '../../base';
 import { CloudinaryMulterConfigService } from 'middleware/cloudinary.middleware.service';
+import { CurrentUser } from 'common/decorations';
 
 @ApiBearerAuth()
 @ApiTags('Posts')
@@ -46,14 +46,15 @@ export class PostsController {
   async create(
     @Body() createPostDto: CreatePostDto,
     @UploadedFile() banner: File,
-    @Req() req: any,
+    @CurrentUser() userId: string,
   ) {
     try {
-      const token = req.headers['authorization']?.split(' ')?.[1];
-      const decodedToken = this.jwtService.verify(token, {
-        secret: process.env.JWT_SECRET,
-      });
-      const user = decodedToken.userId;
+      if (!userId) {
+        return new HttpException(
+          'Failed to create post',
+          HttpStatus.BAD_REQUEST,
+        );
+      }
       const { title, content, category } = createPostDto;
       const fileData = banner?.buffer?.toString('base64');
 
@@ -67,7 +68,7 @@ export class PostsController {
           banner: bannerUrl,
           category,
         },
-        user,
+        userId,
       );
     } catch (error) {
       return new HttpException(error?.message, HttpStatus.BAD_REQUEST);

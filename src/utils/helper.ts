@@ -34,3 +34,10 @@ export const getPropertiesIfExists = (obj: any) => {
   }
   return result;
 };
+
+export function removePassword(user: any) {
+  if (user && user.password) {
+    delete user.password;
+  }
+  return user;
+}
