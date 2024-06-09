@@ -14,6 +14,7 @@ import { APP_GUARD } from '@nestjs/core';
 import { RoleGuard } from './modules/auth/auth.guard';
 import { CategoryModule } from './modules/category/category.module';
 import { CloudinaryMulterConfigService } from 'middleware/cloudinary.middleware.service';
+import { CommentsModule } from './modules/comments/comments.module';
 
 @Module({
   imports: [
@@ -34,6 +35,7 @@ import { CloudinaryMulterConfigService } from 'middleware/cloudinary.middleware.
     UsersModule,
     PostsModule,
     CategoryModule,
+    CommentsModule,
   ],
   controllers: [AppController],
   providers: [
