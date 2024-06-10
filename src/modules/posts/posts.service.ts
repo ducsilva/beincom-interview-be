@@ -34,6 +34,7 @@ export class PostsService {
       .skip(skip)
       .limit(limit)
       .populate({ path: 'user', select: '-password' })
+      .populate('category')
       .sort({ createdAt: -1 })
       .exec();
 
