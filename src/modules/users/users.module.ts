@@ -3,6 +3,7 @@ import { UsersService } from './users.service';
 import { MongooseModule } from '@nestjs/mongoose';
 import { User, UserSchema } from './schema/user.schema';
 import { UserController } from './user.controller';
+import { CloudinaryMulterConfigModule } from 'middleware/CloudinaryMulterConfigModule.module';
 
 @Module({
   imports: [
@@ -12,6 +13,7 @@ import { UserController } from './user.controller';
         schema: UserSchema,
       },
     ]),
+    CloudinaryMulterConfigModule,
   ],
   providers: [UsersService],
   controllers: [UserController],

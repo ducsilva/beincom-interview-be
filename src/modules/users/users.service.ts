@@ -1,4 +1,8 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { User, UserDocument } from './schema/user.schema';
 import { Model } from 'mongoose';
@@ -33,6 +37,10 @@ export class UsersService {
     return this.userModel.findOne({ username }).exec();
   }
 
+  async findById(id: string): Promise<User | null> {
+    return this.userModel.findOne({ id }).exec();
+  }
+
   async findByEmail(email: string): Promise<User | null> {
     return this.userModel.findOne({ email }).exec();
   }
@@ -53,5 +61,15 @@ export class UsersService {
       };
     }
     return null;
+  }
+
+  async updateUser(userId: string, updateData: Partial<User>): Promise<User> {
+    const user = await this.userModel
+      .findByIdAndUpdate(userId, updateData, { new: true })
+      .exec();
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
+    return user;
   }
 }

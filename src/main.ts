@@ -58,8 +58,8 @@ async function bootstrap() {
 
     // Swagger document
     const config = new DocumentBuilder()
-      .setTitle('TrungKa  Swagger')
-      .setDescription('TrungKa API description')
+      .setTitle('Beincom Interview  Swagger')
+      .setDescription('Beincom Interview API description')
       .addBearerAuth()
       .setVersion('1.0')
       .build();
