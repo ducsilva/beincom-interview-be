@@ -15,7 +15,4 @@ export class Category extends BaseSchema {
 }
 
 export const CategorySchema = SchemaFactory.createForClass(Category);
-CategorySchema.index({
-  name: 'text',
-});
 CategorySchema.plugin(require('mongoose-autopopulate'));

@@ -42,9 +42,4 @@ export class Post extends BaseSchema {
 }
 
 export const PostSchema = SchemaFactory.createForClass(Post);
-PostSchema.index({
-  content: 'text',
-  title: 'text',
-});
-
 PostSchema.plugin(require('mongoose-autopopulate'));
