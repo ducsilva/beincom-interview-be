@@ -1,12 +1,12 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { CreatePostDto } from './dto/create-post.dto';
-import { UpdatePostDto } from './dto/update-post.dto';
 import { Post, PostDocument } from './entities/post.schema';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { PostQueryDto } from 'base/query';
 import { getPropertiesIfExists, paginate } from '../../utils';
 import { CommentsService } from 'modules/comments/comments.service';
+import { SearchQueryDto } from 'base/query/search.query';
 
 @Injectable()
 export class PostsService {
@@ -74,11 +74,51 @@ export class PostsService {
     return postDetail;
   }
 
-  update(id: number, updatePostDto: UpdatePostDto) {
-    return `This action updates a #${id} post`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} post`;
+  async searchPosts(searchQuery: SearchQueryDto) {
+    const { query } = searchQuery;
+    return await this.postModel
+      .aggregate([
+        {
+          $lookup: {
+            from: 'comments',
+            localField: 'comments',
+            foreignField: '_id',
+            as: 'commentsDetails',
+          },
+        },
+        {
+          $lookup: {
+            from: 'category',
+            localField: 'category',
+            foreignField: '_id',
+            as: 'categoryDetails',
+          },
+        },
+        {
+          $match: {
+            $or: [
+              { title: { $regex: new RegExp(query, 'i') } },
+              { content: { $regex: new RegExp(query, 'i') } },
+              {
+                'commentsDetails.content': {
+                  $regex: new RegExp(query, 'i'),
+                },
+              },
+              {
+                'categoryDetails.name': {
+                  $regex: new RegExp(query, 'i'),
+                },
+              },
+            ],
+          },
+        },
+      ])
+      .exec();
+    // return await this.postModel.find({
+    //   $or: [
+    //     { title: { $regex: new RegExp(query, 'i') } },
+    //     { content: { $regex: new RegExp(query, 'i') } },
+    //   ],
+    // });
   }
 }

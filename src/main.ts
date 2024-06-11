@@ -58,8 +58,8 @@ async function bootstrap() {
 
     // Swagger document
     const config = new DocumentBuilder()
-      .setTitle('TrungKa  Swagger')
-      .setDescription('TrungKa API description')
+      .setTitle('Beincom Interview  Swagger')
+      .setDescription('Beincom Interview API description')
       .addBearerAuth()
       .setVersion('1.0')
       .build();
@@ -97,16 +97,16 @@ async function bootstrap() {
 
     await app.listen(process.env.PORT);
 
-    // console.table([
-    //   {
-    //     title: 'App Start'.toUpperCase(),
-    //     body: `${`http://localhost:${process.env.PORT}/`}`,
-    //   },
-    //   {
-    //     title: 'Swagger Documentation'.toUpperCase(),
-    //     body: `${`http://localhost:${process.env.PORT}/docs`}`,
-    //   },
-    // ]);
+    console.table([
+      {
+        title: 'App Start'.toUpperCase(),
+        body: `${`http://localhost:${process.env.PORT}/`}`,
+      },
+      {
+        title: 'Swagger Documentation'.toUpperCase(),
+        body: `${`http://localhost:${process.env.PORT}/docs`}`,
+      },
+    ]);
   } catch (error) {
     console.log('error:', error);
   }

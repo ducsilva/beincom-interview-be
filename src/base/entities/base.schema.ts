@@ -17,6 +17,12 @@ export const DefaultSchema = () => {
 
 export class BaseSchema {
   @Prop({
+    type: String,
+    default: false,
+  })
+  _id: string;
+
+  @Prop({
     type: Boolean,
     default: false,
   })
