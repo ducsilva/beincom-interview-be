@@ -76,49 +76,30 @@ export class PostsService {
 
   async searchPosts(searchQuery: SearchQueryDto) {
     const { query } = searchQuery;
-    return await this.postModel
+    const result = await this.postModel
       .aggregate([
-        {
-          $lookup: {
-            from: 'comments',
-            localField: 'comments',
-            foreignField: '_id',
-            as: 'commentsDetails',
-          },
-        },
-        {
-          $lookup: {
-            from: 'category',
-            localField: 'category',
-            foreignField: '_id',
-            as: 'categoryDetails',
-          },
-        },
         {
           $match: {
             $or: [
               { title: { $regex: new RegExp(query, 'i') } },
               { content: { $regex: new RegExp(query, 'i') } },
-              {
-                'commentsDetails.content': {
-                  $regex: new RegExp(query, 'i'),
-                },
-              },
-              {
-                'categoryDetails.name': {
-                  $regex: new RegExp(query, 'i'),
-                },
-              },
             ],
           },
         },
       ])
       .exec();
-    // return await this.postModel.find({
-    //   $or: [
-    //     { title: { $regex: new RegExp(query, 'i') } },
-    //     { content: { $regex: new RegExp(query, 'i') } },
-    //   ],
-    // });
+
+    const postsWithComments = await Promise.all(
+      result?.map(async (post) => {
+        const comments = await this.commentsService.findAllByPostId(
+          post._id.toString(),
+        );
+        return {
+          ...post,
+          comments,
+        };
+      }),
+    );
+    return postsWithComments;
   }
 }
