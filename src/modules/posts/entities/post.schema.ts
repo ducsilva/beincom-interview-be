@@ -27,14 +27,12 @@ export class Post extends BaseSchema {
   @Prop({
     ref: 'Category',
     type: Types.ObjectId,
-    nullable: true,
   })
   category: Types.ObjectId;
 
   @Prop({
     ref: 'User',
     type: Types.ObjectId,
-    nullable: false,
     autopopulate: true,
   })
   user: Types.ObjectId;
@@ -44,4 +42,9 @@ export class Post extends BaseSchema {
 }
 
 export const PostSchema = SchemaFactory.createForClass(Post);
+PostSchema.index({
+  content: 'text',
+  title: 'text',
+});
+
 PostSchema.plugin(require('mongoose-autopopulate'));

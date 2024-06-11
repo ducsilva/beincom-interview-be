@@ -17,7 +17,10 @@ export class CommentsService {
   }
 
   async findAllByPostId(postId: string) {
-    const comment = await this.commentModel.find({ postId }).exec();
+    const comment = await this.commentModel
+      .find({ postId })
+      .sort({ createdAt: -1 })
+      .exec();
     return comment;
   }
 

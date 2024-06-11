@@ -25,6 +25,7 @@ import { JwtService } from '@nestjs/jwt';
 import { PostQueryDto } from '../../base';
 import { CloudinaryMulterConfigService } from 'middleware/cloudinary.middleware.service';
 import { CurrentUser } from 'common/decorations';
+import { SearchQueryDto } from 'base/query/search.query';
 
 @ApiBearerAuth()
 @ApiTags('Posts')
@@ -32,7 +33,6 @@ import { CurrentUser } from 'common/decorations';
 export class PostsController {
   constructor(
     private readonly postsService: PostsService,
-    private readonly jwtService: JwtService,
     private readonly cloudaryService: CloudinaryMulterConfigService,
   ) {}
 
@@ -73,6 +73,14 @@ export class PostsController {
     } catch (error) {
       return new HttpException(error?.message, HttpStatus.BAD_REQUEST);
     }
+  }
+
+  @Get('/query')
+  @ApiOperation({
+    summary: 'Search post by content',
+  })
+  async queryByContent(@Query() query: SearchQueryDto) {
+    return await this.postsService.searchPosts(query);
   }
 
   @Get()

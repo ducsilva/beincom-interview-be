@@ -20,4 +20,7 @@ export class Comment extends BaseSchema {
 }
 
 export const CommentSchema = SchemaFactory.createForClass(Comment);
+CommentSchema.index({
+  content: 'text',
+});
 CommentSchema.plugin(require('mongoose-autopopulate'));

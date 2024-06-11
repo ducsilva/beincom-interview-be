@@ -2,6 +2,7 @@ import {
   Controller,
   Get,
   Post,
+  Query,
   Req,
   UnauthorizedException,
   UploadedFile,
@@ -21,6 +22,7 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { CloudinaryMulterConfigService } from 'middleware/cloudinary.middleware.service';
 import { File } from 'multer';
 import { CurrentUser } from 'common/decorations';
+import { QueryUsername } from 'base/query/search.query';
 
 @ApiBearerAuth()
 @ApiTags('User')
@@ -51,6 +53,19 @@ export class UserController {
       }
 
       return user;
+    } catch (error) {
+      throw new AllExceptionsFilter();
+    }
+  }
+
+  @Get('username')
+  @ApiOperation({
+    summary: 'Get profile by username',
+  })
+  async getProfileByUsername(@Query() query: QueryUsername) {
+    try {
+      const userProfile = await this.userService.findByUsername(query.username);
+      return userProfile;
     } catch (error) {
       throw new AllExceptionsFilter();
     }
